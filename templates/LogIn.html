@@ -1,0 +1,86 @@
+<!---Log-in-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <title>Log-in Page</title>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="#">Bug Tracking.</a>
+        </div>
+        <input type="checkbox" id="click">
+        <label for="click" class="mainicon">
+            <div class="menu">
+                <i class="bi bi-list"></i>
+            </div>
+        </label>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+        </nav>
+    </header>
+
+    <section>
+        <div class="login-box">
+            <p>Login</p>
+            <form>
+                <div class="user-box">
+                    <input required="true" name="" type="email">
+                    <label>Email</label>
+                </div>
+                <div class="user-box">
+                    <input required="true" name="" type="password">
+                    <label>Password</label>
+                </div>
+                <a id="sub" href="#">Submit</a>
+                <a id="reg" href="{{ url_for('signup') }}">Register</a>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="{{ url_for('static', filename='bug.png') }}" alt="Bug Tracking">
+            </div>
+
+            <div class="footer-links">
+                <h3>Links</h3>
+                <ul>
+                    <li><a class="link" href="#">Home</a></li>
+                    <li><a class="link" href="#">About</a></li>
+                    <li><a class="link" href="#">Contact</a></li>
+                    <li><a class="link" href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-social">
+                <h3>Social</h3>
+                <ul>
+                    <li><a class="link" href="#">Facebook</a></li>
+                    <li><a class="link" href="#">Twitter</a></li>
+                    <li><a class="link" href="#">Youtube</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 My Website</p>
+        </div>
+    </footer>
+
+</body>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap');
+</style>
+</html>

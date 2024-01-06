@@ -1,0 +1,167 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <title>Q&A Website</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="#">Bug Tracking.</a>
+        </div>
+        <input type="checkbox" id="click">
+        <label for="click" class="mainicon">
+            <div class="menu">
+                <i class="bi bi-list"></i>
+            </div>
+        </label>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="#">QnA</a>
+            <a href="">Account</a>
+        </nav>
+    </header>
+    <main>
+
+        <!-- main programm -->
+        <h1>Questions</h1>
+        {% for question in questions %}
+        <div class="card">
+            <h2 class="card-title"><a href="{{ url_for('question', question_id=question[0]) }}">{{ question[1] }}</a>
+            </h2>
+            <p class="card-content">{{ question[2] }}</p>
+            <form method="post" action="{{ url_for('question', question_id=question[0]) }}">
+                <label for="answer">Your Answer:</label>
+                <textarea id="answer" name="answer" required></textarea><br>
+                <input type="submit" value="Post Answer" class="rounded-button">
+            </form>
+        </div>
+        {% endfor %}
+        <a href="{{ url_for('ask') }}" class="rounded-button">Ask a Question</a>
+
+        <!-- CHAT BOT -->
+
+        <div id="chatbot-circle" onclick="toggleChatbot()">
+            <span style="font-size: 4em;">🤖</span>
+        </div>
+
+        <div id="chatbot-container">
+            <div id="chatbot-header" onclick="toggleChatbot()">Chatbot</div>
+            <div id="chatbot-messages"></div>
+            <div id="chatbot-input-container">
+                <input type="text" id="chatbot-input" placeholder="Type your message...">
+                <button id="chatbot-send-btn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="{{ url_for('static', filename='bug.png') }}" alt="Bug Tracking">
+            </div>
+
+            <div class="footer-links">
+                <h3>Links</h3>
+                <ul>
+                    <li><a class="link" href="#">Home</a></li>
+                    <li><a class="link" href="#">About</a></li>
+                    <li><a class="link" href="#">Contact</a></li>
+                    <li><a class="link" href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-social">
+                <h3>Social</h3>
+                <ul>
+                    <li><a class="link" href="#">Facebook</a></li>
+                    <li><a class="link" href="#">Twitter</a></li>
+                    <li><a class="link" href="#">Youtube</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 My Website</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleChatbot() {
+            var chatbotContainer = document.getElementById("chatbot-container");
+            chatbotContainer.style.display = (chatbotContainer.style.display === "none") ? "flex" : "none";
+        }
+
+        function sendMessage() {
+            var inputElement = document.getElementById("chatbot-input");
+            var message = inputElement.value;
+
+            if (message.trim() !== "") {
+                var messagesContainer = document.getElementById("chatbot-messages");
+
+                var userMessage = document.createElement("div");
+                userMessage.textContent = "User: " + message;
+                messagesContainer.appendChild(userMessage);
+
+                var botResponse = generateBotResponse(message);
+                var botResponseElement = document.createElement("div");
+                botResponseElement.textContent = "Chatbot: " + botResponse;
+                messagesContainer.appendChild(botResponseElement);
+
+                inputElement.value = "";
+            }
+        }
+
+        function generateBotResponse(userMessage) {
+            userMessage = userMessage.toLowerCase();
+
+            if (userMessage.includes("hello") || userMessage.includes("hi")) {
+                return "Hello! How can I assist you today?";
+            }
+            else if (userMessage.includes("goodbye")) {
+                return "Goodbye! Have a great day!";
+            }
+            else if (userMessage.includes("computer won't start")) {
+                return "Please try these solutions\n1. Check PC power Supply\n2. Charge laptop for 1 hour\n3. Check Monitor Cables\n4. Force stut down laptop\n5. Unplug external devices ";
+            }
+            else if (userMessage.includes("computer Don't turn On ")) {
+                return "1. Failing to plug in the computer\n2. Your laptop has been discharged\n3. Your monitor that isn't working\n";
+            }
+            else if (userMessage.includes("System Crash (Blue Screen of Death)")) {
+                return "If it comes then do these followiing steps\n1. Restart your computer\n2. scan for virses\n3. Check Device driver\n4. Check storage Space\n5. Perform Diagnostic Tests";
+            }
+            else if (userMessage.includes("Slow Computer") || userMessage.includes("Frozen Screen")) {
+                return "These are some of the easiest ways to speed up your computer\n1. Uninstall Unwanted Programs\n2. Disk cleanup\n3.Stop Startup Programs";
+            }
+            else if (userMessage.includes("Slow Internet") || userMessage.includes("Dropped Internet")) {
+                return "How to Fix Slow Internet\n1. Check speed on other devices\n2. Reset your modem\n3. Close background programs\n4.Make sure you have a good router";
+            }
+            else if (userMessage.includes("Overheating")) {
+                return "How to Fix an Overheating CPU/Laptop\n1. Check Vents\n2. Check Fan\n3. Close Heavy Programs\n4. Clean your Computer";
+            }
+            else if (userMessage.includes("Abnormally Functioning Operating System")) {
+                return "How to Fix Abnormally Functioning OS\n1. Restart Your Computer\n2. Run an Antivirus";
+            }
+            else if (userMessage.includes(" ")) {
+                return "How to Fix Automatic Restarts:\n1. Turn Off Automatic Restart\n2. Cool Down CPU\n3. Uninstall Malfunctioning Software\n4. Run an Antivirus";
+            }
+            else if (userMessage.includes("weather")) {
+                return "I'm sorry, I don't have real-time weather information.";
+            }
+            else {
+                return "Thank you for your message. I'm a simple bot!";
+            }
+        }
+    </script>
+</body>
+
+</html>
